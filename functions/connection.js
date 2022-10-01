@@ -3,8 +3,6 @@ const conn = () => {
   mongoose
     .connect(process.env.DATABASE)
     .then(() => {
-        console.log(process.env.DATABASE);
-
       console.log("connection successful");
     })
     .catch((err) => {
