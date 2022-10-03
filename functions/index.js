@@ -2,7 +2,14 @@ const cors = require("cors");
 const express = require("express");
 const ytdl = require("ytdl-core");
 const app = express();
-app.use(cors());
+const corsOpts = {
+  origin: "*",
+
+  methods: ["GET", "POST"],
+
+  allowedHeaders: ["Content-Type"],
+};
+app.use(cors(corsOpts));
 
 const router = express.Router();
 // const dotenv = require("dotenv");
