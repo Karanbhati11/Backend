@@ -10,17 +10,11 @@ const User = require("../models/UserSchema");
 const PlayListSchema = require("../models/PlayListSchema");
 const cors = require("cors");
 const app = express();
-const corsOpts = {
+const corsOptions = {
   origin: "*",
-  methods: ["GET", "POST"],
-  credentials: true,
-  allowedHeaders: ["Content-Type"],
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
 };
-// const corsOptions = {
-//   origin: "*",
-//   credentials: true, //access-control-allow-credentials:true
-//   optionSuccessStatus: 200,
-// };
 app.use(cors(corsOptions));
 
 router.get("/", (req, res) => {
