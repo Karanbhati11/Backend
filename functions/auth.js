@@ -10,12 +10,17 @@ const User = require("../models/UserSchema");
 const PlayListSchema = require("../models/PlayListSchema");
 const cors = require("cors");
 const app = express();
-
-const corsOptions = {
+const corsOpts = {
   origin: "*",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
+  methods: ["GET", "POST"],
+  credentials: true,
+  allowedHeaders: ["Content-Type"],
 };
+// const corsOptions = {
+//   origin: "*",
+//   credentials: true, //access-control-allow-credentials:true
+//   optionSuccessStatus: 200,
+// };
 app.use(cors(corsOptions));
 
 router.get("/", (req, res) => {
@@ -39,7 +44,7 @@ router.post("/register", async (req, res) => {
             passwordStrength(password).id !== 0 &&
             passwordStrength(password).id !== 1
           ) {
-            console.log(passwordStrength(password).id);
+            // console.log(passwordStrength(password).id);
             try {
               const userExist = await User.findOne({ email: email });
               if (userExist) {
@@ -66,7 +71,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  //   res.json({ message: "awesome" });
+  // res.json({ message: "awesome" });
   try {
     const { email, password } = req.body;
     if (!email || !password) {

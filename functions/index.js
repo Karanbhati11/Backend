@@ -14,13 +14,15 @@ app.use(cors(corsOpts));
 const router = express.Router();
 // const dotenv = require("dotenv");
 // dotenv.config({ path: ".env" });
-const authroute = require("./auth");
-const uploadroute = require("./userdata");
+
 const serverless = require("serverless-http");
 var bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+const authroute = require("./auth");
+const uploadroute = require("./userdata");
 router.get("/", (req, res) => {
   res.send("Working");
 });
