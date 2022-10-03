@@ -23,9 +23,9 @@ app.use(cookieParser());
 
 const authroute = require("./auth");
 const uploadroute = require("./userdata");
-router.get("/", (req, res) => {
-  res.send("Working");
-});
+// router.get("/", (req, res) => {
+//   res.send("Working");
+// });
 app.use(express.json());
 app.use(authroute);
 app.use(uploadroute);
