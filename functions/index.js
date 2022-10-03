@@ -1,12 +1,14 @@
+const cors = require("cors");
 const express = require("express");
 const ytdl = require("ytdl-core");
 const app = express();
+app.use(cors());
+
 const router = express.Router();
 // const dotenv = require("dotenv");
 // dotenv.config({ path: ".env" });
 const authroute = require("./auth");
 const uploadroute = require("./userdata");
-const cors = require("cors");
 const serverless = require("serverless-http");
 var bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -15,7 +17,6 @@ app.use(cookieParser());
 router.get("/", (req, res) => {
   res.send("Working");
 });
-app.use(cors());
 app.use(express.json());
 app.use(authroute);
 app.use(uploadroute);
