@@ -8,19 +8,10 @@ require("./connection");
 const User = require("../models/UserSchema");
 // const DataSchema = require("../models/DataSchema");
 const PlayListSchema = require("../models/PlayListSchema");
-const cors = require("cors");
 const app = express();
-const corsOptions = {
-  origin: "*",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
-
 router.get("/", (req, res) => {
   res.send("Home Page from auth.js");
 });
-
 router.post("/register", async (req, res) => {
   const { name, email, password, cpassword } = req.body; // true
   //Email validation remaining
@@ -65,14 +56,12 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  // res.json({ message: "awesome" });
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ error: "All fields required" });
+      return res.status(403).json({ error: "All fields required" });
     }
     const userLogin = await User.findOne({ email: email });
-    // console.log(userLogin);
     if (userLogin) {
       const isMatch = await bcrypt.compare(password, userLogin.password);
       const token = await userLogin.generateAuthToken();
@@ -80,12 +69,12 @@ router.post("/login", async (req, res) => {
         expires: new Date(Date.now() + 25832000000),
       });
       if (!isMatch) {
-        res.status(400).json({ message: "Invalid Credentials" });
+        res.status(403).json({ message: "Invalid Credentials" });
       } else {
         res.status(200).json({ message: "Logged In Successfully" });
       }
     } else {
-      res.status(400).json({ message: "Invalid Credentials" });
+      res.status(403).json({ message: "Invalid Credentials" });
     }
   } catch (err) {
     console.log(err);
