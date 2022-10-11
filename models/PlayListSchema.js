@@ -5,7 +5,7 @@ const PlayListSchema = new mongoose.Schema({
   Playlist: {
     PlaylistData: [
       {
-        AudioUrl: { type: String, required: true },
+        // AudioUrl: { type: String, required: true },
         ImageUrl: { type: String, required: true },
         videoID: { type: String, required: true },
       },

@@ -5,9 +5,12 @@ const User = require("../models/UserSchema");
 
 // router.use(cookieParser);
 const Authenticate = async (req, res, next) => {
+  // console.log(req.headers);
   try {
-    const token = req.cookies.jwtoken;
-    const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
+    // const token = req.cookies.jwtoken;
+    const authBearer = req.headers["authorization"];
+    const token = authBearer.split(" ");
+    const verifyToken = jwt.verify(token[1], process.env.SECRET_KEY);
 
     const rootUser = await User.findOne({
       _id: verifyToken._id,
@@ -23,7 +26,7 @@ const Authenticate = async (req, res, next) => {
 
     next();
   } catch (err) {
-    res.status(403).send("Unauthorized: No token provided");
+    res.status(401).send("Unauthorized: No token provided");
     console.log(err);
   }
 };

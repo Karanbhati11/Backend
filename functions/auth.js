@@ -8,7 +8,8 @@ require("./connection");
 const User = require("../models/UserSchema");
 // const DataSchema = require("../models/DataSchema");
 const PlayListSchema = require("../models/PlayListSchema");
-const app = express();
+// const cookieParser = require("cookie-parser");
+// const app = express();
 router.get("/", (req, res) => {
   res.send("Home Page from auth.js");
 });
@@ -65,13 +66,17 @@ router.post("/login", async (req, res) => {
     if (userLogin) {
       const isMatch = await bcrypt.compare(password, userLogin.password);
       const token = await userLogin.generateAuthToken();
-      res.cookie("jwtoken", token, {
-        expires: new Date(Date.now() + 25832000000),
-      });
+      // res.json({ jwttoken: token });
+      // res.cookie("jwtoken", token, {
+      //   expires: new Date(Date.now() + 25832000000),
+      //   path: "https://ytdownloadfrontend.netlify.app/",
+      // });
       if (!isMatch) {
         res.status(403).json({ message: "Invalid Credentials" });
       } else {
-        res.status(200).json({ message: "Logged In Successfully" });
+        res
+          .status(200)
+          .json({ message: "Logged In Successfully", jwtoken: token });
       }
     } else {
       res.status(403).json({ message: "Invalid Credentials" });
@@ -91,7 +96,7 @@ router.get("/playlist", authenticate, async (req, res) => {
 router.post(
   "/addtoplaylist",
   async (req, res) => {
-    const { email, videoID, ImageUrl, AudioUrl } = req.body;
+    const { email, videoID, ImageUrl } = req.body;
 
     try {
       const DataExist = await PlayListSchema.findOne({ email: email });
@@ -108,7 +113,7 @@ router.post(
               $addToSet: {
                 "Playlist.PlaylistData": {
                   videoID: videoID,
-                  AudioUrl: AudioUrl,
+                  // AudioUrl: AudioUrl,
                   ImageUrl: ImageUrl,
                 },
               },
@@ -127,7 +132,7 @@ router.post(
           email: email,
           Playlist: {
             PlaylistData: {
-              AudioUrl: AudioUrl,
+              // AudioUrl: AudioUrl,
               ImageUrl: ImageUrl,
               videoID: videoID,
             },
