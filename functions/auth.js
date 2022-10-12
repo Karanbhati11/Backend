@@ -96,7 +96,7 @@ router.get("/playlist", authenticate, async (req, res) => {
 router.post(
   "/addtoplaylist",
   async (req, res) => {
-    const { email, videoID, ImageUrl } = req.body;
+    const { email, videoID, ImageUrl, Title, AudioUrl } = req.body;
 
     try {
       const DataExist = await PlayListSchema.findOne({ email: email });
@@ -113,8 +113,9 @@ router.post(
               $addToSet: {
                 "Playlist.PlaylistData": {
                   videoID: videoID,
-                  // AudioUrl: AudioUrl,
+                  Title: Title,
                   ImageUrl: ImageUrl,
+                  AudioUrl: AudioUrl,
                 },
               },
             }
@@ -132,9 +133,10 @@ router.post(
           email: email,
           Playlist: {
             PlaylistData: {
-              // AudioUrl: AudioUrl,
-              ImageUrl: ImageUrl,
               videoID: videoID,
+              Title: Title,
+              ImageUrl: ImageUrl,
+              AudioUrl: AudioUrl,
             },
           },
         });

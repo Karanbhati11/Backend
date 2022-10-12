@@ -1,13 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/UserSchema");
-// const cookieParser = require("cookie-parser");
-// const router = require("../router/auth");
 
-// router.use(cookieParser);
 const Authenticate = async (req, res, next) => {
-  // console.log(req.headers);
   try {
-    // const token = req.cookies.jwtoken;
     const authBearer = req.headers["authorization"];
     const token = authBearer.split(" ");
     const verifyToken = jwt.verify(token[1], process.env.SECRET_KEY);

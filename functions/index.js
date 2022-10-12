@@ -8,8 +8,8 @@ const serverless = require("serverless-http");
 const authroute = require("./auth");
 const uploadroute = require("./userdata");
 const corsOptions = {
-  origin: "https://ytdownloadfrontend.netlify.app",
-  // origin: "http://localhost:3000",
+  // origin: "https://ytdownloadfrontend.netlify.app",
+  origin: "http://localhost:3000",
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
   exposedHeaders: "**",
